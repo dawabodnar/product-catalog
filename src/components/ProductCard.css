@@ -79,10 +79,29 @@
   font-weight: 500;
 }
 
-.product-card-stock-in {
+.product-card__stock--in {
   color: #16a34a;
 }
 
-.product-card-stock-out {
+.product-card__stock--low {
+  color: #d97706;
+}
+
+.product-card__stock--out {
   color: #dc2626;
+}
+.product-card__stock {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.product-card__stock-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
 }

@@ -42,7 +42,13 @@ img {
   padding: 24px 16px;
 }
 
-.app-header h1 {
+.app_header h1 {
   margin: 0 0 24px;
   font-size: 28px;
+}
+.app_empty {
+  text-align: center;
+  color: #6b7280;
+  margin-top: 32px;
+  font-size: 16px;
 }
