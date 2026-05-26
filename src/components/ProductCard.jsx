@@ -1,7 +1,7 @@
-import { hasMeaningfulDiscount } from '../utils/product';
+import { hasMeaningfulDiscount } from "../utils/product";
 import "./ProductCard.css";
-import { getStockState, getStockLabel } from '../utils/product';
-function ProductCard({ product }) {
+import { getStockState, getStockLabel } from "../utils/product";
+function ProductCard({ product, isFavorite, toggleFavorite }) {
   const {
     title,
     brand,
@@ -12,9 +12,9 @@ function ProductCard({ product }) {
     thumbnail,
   } = product;
 
-const stockState = getStockState(product);
-const stockLabel = getStockLabel(stockState);
-const hasDiscount = hasMeaningfulDiscount(product);
+  const stockState = getStockState(product);
+  const stockLabel = getStockLabel(stockState);
+  const hasDiscount = hasMeaningfulDiscount(product);
 
   return (
     <article className="product-card">
@@ -39,12 +39,23 @@ const hasDiscount = hasMeaningfulDiscount(product);
         <p className="product-card-rating" aria-label={`Рейтинг ${rating}`}>
           ★{rating.toFixed(2)}
         </p>
-        <p
-          className={`product-card__stock product-card__stock--${stockState}` }
-        >
-            <span aria-hidden="true" className="product-card__stock-dot" />
+        <p className={`product-card__stock product-card__stock--${stockState}`}>
+          <span aria-hidden="true" className="product-card__stock-dot" />
           {stockLabel}
         </p>
+        <button
+          type="button"
+          className={`fav-btn ${isFavorite ? 'fav-btn--active' : ''}`}
+          onClick={() => toggleFavorite(product.id)}
+          aria-pressed={isFavorite}
+          aria-label={
+            isFavorite
+              ? `Видалити ${title} з обраного`
+              : `Додати ${title} в обране`
+          }
+        >
+          {isFavorite ? "★ В обраному" : "☆ В обране"}
+        </button>
       </div>
     </article>
   );

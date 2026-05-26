@@ -2,7 +2,9 @@ import { fetchProducts } from "./utils/api";
 import { useEffect, useState, useMemo } from "react";
 import ProductList from "./components/ProductList";
 import Toolbar from "./components/Toolbar";
-import { hasMeaningfulDiscount } from './utils/product';
+import { hasMeaningfulDiscount } from "./utils/product";
+import { useFavorites } from "./hooks/useFavorites";
+import FavoritesList from "./components/FavoritesList";
 
 function App() {
   const [products, setProducts] = useState([]);
@@ -14,6 +16,9 @@ function App() {
   const [inStockOnly, setInStockOnly] = useState(false);
   const [discountedOnly, setDiscountedOnly] = useState(false);
   const [sortOption, setSortOption] = useState("default");
+
+  const { favoriteId, isFavorite, toggleFavorite, clearFavorites } =
+    useFavorites();
 
   useEffect(() => {
     let cancelled = false;
@@ -97,6 +102,11 @@ function App() {
     sortOption,
   ]);
 
+  const favoriteProducts = useMemo(
+    () => products.filter((p) => favoriteId.includes(p.id)),
+    [products, favoriteId],
+  );
+
   function handleReset() {
     setSearchQuery("");
     setCategoryFilter("all");
@@ -131,12 +141,22 @@ function App() {
               Reset={handleReset}
             />
             {visibleProducts.length > 0 ? (
-              <ProductList products={visibleProducts} />
+              <ProductList
+                products={visibleProducts}
+                isFavorite={isFavorite}
+                toggleFavorite={toggleFavorite}
+              />
             ) : (
               <p className="app_empty">
                 Нічого не знайдено. Спробуйте змінити пошук або скинути фільтри.
               </p>
             )}
+            <FavoritesList
+              products={favoriteProducts}
+              isFavorite={isFavorite}
+              toggleFavorite={toggleFavorite}
+              clearFavorites={clearFavorites}
+            />
           </>
         )}
       </main>
