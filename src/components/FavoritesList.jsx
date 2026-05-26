@@ -6,6 +6,9 @@ function FavoritesList({
   isFavorite,
   toggleFavorite,
   clearFavorites,
+  isCompare,
+  toggleCompare,
+  canAddToCompare,
 }) {
   return (
     <section className="favorites" aria-labelledby="favorites_title">
@@ -35,6 +38,9 @@ function FavoritesList({
                 product={product}
                 isFavorite={isFavorite(product.id)}
                 toggleFavorite={toggleFavorite}
+                isCompare={isCompare(product.id)}
+                toggleCompare={toggleCompare}
+                canAddToCompare={canAddToCompare}
               />
             </li>
           ))}

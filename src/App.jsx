@@ -5,6 +5,8 @@ import Toolbar from "./components/Toolbar";
 import { hasMeaningfulDiscount } from "./utils/product";
 import { useFavorites } from "./hooks/useFavorites";
 import FavoritesList from "./components/FavoritesList";
+import { useCompare } from "./hooks/useCompare";
+import CompareTable from "./components/CompareTable";
 
 function App() {
   const [products, setProducts] = useState([]);
@@ -19,6 +21,9 @@ function App() {
 
   const { favoriteId, isFavorite, toggleFavorite, clearFavorites } =
     useFavorites();
+
+  const { compareId, isCompare, toggleCompare, clearCompare, isFull } =
+    useCompare();
 
   useEffect(() => {
     let cancelled = false;
@@ -107,6 +112,12 @@ function App() {
     [products, favoriteId],
   );
 
+  const compareProducts = useMemo(() => {
+    return compareId
+      .map((id) => products.find((p) => p.id === id))
+      .filter(Boolean);
+  }, [products, compareId]);
+
   function handleReset() {
     setSearchQuery("");
     setCategoryFilter("all");
@@ -145,6 +156,9 @@ function App() {
                 products={visibleProducts}
                 isFavorite={isFavorite}
                 toggleFavorite={toggleFavorite}
+                isCompare={isCompare}
+                toggleCompare={toggleCompare}
+                canAddToCompare={!isFull}
               />
             ) : (
               <p className="app_empty">
@@ -156,6 +170,14 @@ function App() {
               isFavorite={isFavorite}
               toggleFavorite={toggleFavorite}
               clearFavorites={clearFavorites}
+              isCompare={isCompare}
+              toggleCompare={toggleCompare}
+              canAddToCompare={!isFull}
+            />
+            <CompareTable
+              products={compareProducts}
+              onRemove={toggleCompare}
+              clearCompare={clearCompare}
             />
           </>
         )}

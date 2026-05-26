@@ -1,7 +1,14 @@
 import "./ProductList.css";
 import ProductCard from "./ProductCard";
 
-function ProductList({ products, isFavorite, toggleFavorite }) {
+function ProductList({
+  products,
+  isFavorite,
+  toggleFavorite,
+  isCompare,
+  toggleCompare,
+  canAddToCompare,
+}) {
   return (
     <ul className="product-list">
       {products.map((product) => (
@@ -10,6 +17,9 @@ function ProductList({ products, isFavorite, toggleFavorite }) {
             product={product}
             isFavorite={isFavorite(product.id)}
             toggleFavorite={toggleFavorite}
+            isCompare={isCompare(product.id)}
+            toggleCompare={toggleCompare}
+            canAddToCompare={canAddToCompare}
           />
         </li>
       ))}

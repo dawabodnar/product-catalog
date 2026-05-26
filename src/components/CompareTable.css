@@ -1,0 +1,105 @@
+.compare {
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.compare_header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.compare_title {
+  margin: 0;
+  font-size: 22px;
+}
+
+.compare_clear {
+  padding: 8px 16px;
+  font-size: 14px;
+  border: 1px solid #d1d5db;
+  background: #fff;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.compare_clear:hover {
+  background: #f3f4f6;
+}
+
+.compare_empty {
+  color: #6b7280;
+  font-size: 15px;
+}
+
+.compare_table-wrap {
+  overflow-x: auto;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+
+.compare_table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  min-width: 480px;
+}
+
+.compare_table th,
+.compare_table td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+  vertical-align: top;
+}
+
+.compare_table tr:last-child th,
+.compare_table tr:last-child td {
+  border-bottom: none;
+}
+
+.compare_table thead th {
+  background: #f9fafb;
+  font-weight: 600;
+}
+
+.compare_table tbody th {
+  background: #f9fafb;
+  font-weight: 500;
+  color: #6b7280;
+  width: 160px;
+}
+
+.compare_product {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.compare_product-title {
+  display: block;
+  line-height: 1.3;
+}
+
+.compare_remove {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  border: none;
+  background: transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.compare_remove:hover {
+  background: #f3f4f6;
+  color: #dc2626;
+}
