@@ -11,32 +11,32 @@ const STORAGE_KEY = 'product-catalog:compare';
 export const MAX_COMPARE = 3;
 
 export function useCompare() {
-    const [compareId, setCompareId] = useState(() => readArray(STORAGE_KEY));
+    const [compareIds, setCompareIds] = useState(() => readArray(STORAGE_KEY));
 
     useEffect(() => {
-        writteArray(STORAGE_KEY, compareId)
-    }, [compareId]);
+        writteArray(STORAGE_KEY, compareIds)
+    }, [compareIds]);
 
-    function isCompare(id) {
-        return compareId.includes(id);
+    function isCompared(id) {
+        return compareIds.includes(id);
     }
 
     function toggleCompare(id) {
-        if (compareId.includes(id)) {
-            setCompareId(compareId.filter((c) => c !== id));
+        if (compareIds.includes(id)) {
+            setCompareIds(compareIds.filter((c) => c !== id));
 
-        } else if (compareId.length < MAX_COMPARE) {
-            setCompareId([...compareId, id]);
+        } else if (compareIds.length < MAX_COMPARE) {
+            setCompareIds([...compareIds, id]);
         }
     }
 
     function clearCompare() {
-        setCompareId([]);
+        setCompareIds([]);
     }
-    const isFull = compareId.length >= MAX_COMPARE;
+    const isFull = compareIds.length >= MAX_COMPARE;
     return {
-        compareId,
-        isCompare,
+        compareIds,
+        isCompared,
         toggleCompare,
         clearCompare,
         isFull

@@ -12,7 +12,7 @@ function Toolbar({
   onDiscountedChange,
   sortOption,
   onSortChange,
-  Reset,
+  onReset,
 }) {
   return (
     <div className="toolbar">
@@ -78,7 +78,7 @@ function Toolbar({
           />
           <span>Тільки зі знижкою</span>
         </label>
-        <button type="button" className="toolbar_reset" onClick={Reset}>
+        <button type="button" className="toolbar_reset" onClick={onReset}>
           Скинути фільтри
         </button>
       </div>

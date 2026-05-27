@@ -6,7 +6,7 @@ import {
 import { MAX_COMPARE } from "../hooks/useCompare";
 import "./CompareTable.css";
 
-function CompareTable({ products, clearCompare, onRemove }) {
+function CompareTable({ products, onClear, onRemove }) {
   return (
     <section className="compare" aria-labelledby="compare_title">
       <div className="compare_header">
@@ -17,7 +17,7 @@ function CompareTable({ products, clearCompare, onRemove }) {
           <button
             type="button"
             className="compare_clear"
-            onClick={clearCompare}
+            onClick={onClear}
           >
             Очистити порівняння
           </button>

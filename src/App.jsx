@@ -19,35 +19,27 @@ function App() {
   const [discountedOnly, setDiscountedOnly] = useState(false);
   const [sortOption, setSortOption] = useState("default");
 
-  const { favoriteId, isFavorite, toggleFavorite, clearFavorites } =
+  const { favoriteIds, isFavorite, toggleFavorite, clearFavorites } =
     useFavorites();
 
-  const { compareId, isCompare, toggleCompare, clearCompare, isFull } =
+  const { compareIds, isCompared, toggleCompare, clearCompare, isFull } =
     useCompare();
 
   useEffect(() => {
-    let cancelled = false;
-
-    async function load() {
+    async function loadProducts() {
       setStatus("loading");
+      setError("");
       try {
         const data = await fetchProducts();
-        if (!cancelled) {
-          setProducts(data);
-          setStatus("success");
-        }
-      } catch (error) {
-        console.error("Failed to fetch products:", error);
-        if (!cancelled) {
-          setError(error.message || "Невідома помилка");
-          setStatus("error");
-        }
+        setProducts(data);
+        setStatus("success");
+      } catch (err) {
+        console.error("Failed to fetch products:", err);
+        setError(err.message || "Невідома помилка");
+        setStatus("error");
       }
     }
-    load();
-    return () => {
-      cancelled = true;
-    };
+    loadProducts();
   }, []);
 
   const categories = useMemo(() => {
@@ -108,15 +100,15 @@ function App() {
   ]);
 
   const favoriteProducts = useMemo(
-    () => products.filter((p) => favoriteId.includes(p.id)),
-    [products, favoriteId],
+    () => products.filter((p) => favoriteIds.includes(p.id)),
+    [products, favoriteIds],
   );
 
   const compareProducts = useMemo(() => {
-    return compareId
+    return compareIds
       .map((id) => products.find((p) => p.id === id))
       .filter(Boolean);
-  }, [products, compareId]);
+  }, [products, compareIds]);
 
   function handleReset() {
     setSearchQuery("");
@@ -133,7 +125,10 @@ function App() {
       <main className="app_main">
         {status === "loading" && <p>Завантаження…</p>}
         {status === "error" && (
-          <p role="alert">Помилка завантаження: {error}</p>
+          <div role="alert" className="app_error">
+            <p>Помилка завантаження: {error}</p>
+            <p>Перезавантажте сторінку, щоб спробувати знову.</p>
+          </div>
         )}
         {status === "success" && (
           <>
@@ -149,15 +144,18 @@ function App() {
               onDiscountedChange={setDiscountedOnly}
               sortOption={sortOption}
               onSortChange={setSortOption}
-              Reset={handleReset}
+              onReset={handleReset}
             />
+            <p className="app_count">
+              Знайдено {visibleProducts.length} з {products.length} товарів
+            </p>
             {visibleProducts.length > 0 ? (
               <ProductList
                 products={visibleProducts}
                 isFavorite={isFavorite}
-                toggleFavorite={toggleFavorite}
-                isCompare={isCompare}
-                toggleCompare={toggleCompare}
+                onToggleFavorite={toggleFavorite}
+                isCompared={isCompared}
+                onToggleCompare={toggleCompare}
                 canAddToCompare={!isFull}
               />
             ) : (
@@ -168,16 +166,16 @@ function App() {
             <FavoritesList
               products={favoriteProducts}
               isFavorite={isFavorite}
-              toggleFavorite={toggleFavorite}
-              clearFavorites={clearFavorites}
-              isCompare={isCompare}
-              toggleCompare={toggleCompare}
+              onToggleFavorite={toggleFavorite}
+              onClear={clearFavorites}
+              isCompared={isCompared}
+              onToggleCompare={toggleCompare}
               canAddToCompare={!isFull}
             />
             <CompareTable
               products={compareProducts}
               onRemove={toggleCompare}
-              clearCompare={clearCompare}
+              onClear={clearCompare}
             />
           </>
         )}

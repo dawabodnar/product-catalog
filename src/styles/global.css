@@ -52,3 +52,37 @@ img {
   margin-top: 32px;
   font-size: 16px;
 }
+.app_error {
+  text-align: center;
+  padding: 32px 16px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  margin-top: 16px;
+}
+
+.app_error p {
+  margin: 0 0 16px;
+  color: #991b1b;
+}
+
+.app_retry {
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  border: 1px solid #dc2626;
+  background: #fff;
+  color: #dc2626;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.app_retry:hover {
+  background: #fee2e2;
+}
+
+.app_count {
+  margin: 0 0 16px;
+  font-size: 14px;
+  color: #6b7280;
+}

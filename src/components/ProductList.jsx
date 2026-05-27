@@ -4,9 +4,9 @@ import ProductCard from "./ProductCard";
 function ProductList({
   products,
   isFavorite,
-  toggleFavorite,
-  isCompare,
-  toggleCompare,
+  onToggleFavorite,
+  isCompared,
+  onToggleCompare,
   canAddToCompare,
 }) {
   return (
@@ -16,9 +16,9 @@ function ProductList({
           <ProductCard
             product={product}
             isFavorite={isFavorite(product.id)}
-            toggleFavorite={toggleFavorite}
-            isCompare={isCompare(product.id)}
-            toggleCompare={toggleCompare}
+            onToggleFavorite={onToggleFavorite}
+            isCompared={isCompared(product.id)}
+            onToggleCompare={onToggleCompare}
             canAddToCompare={canAddToCompare}
           />
         </li>

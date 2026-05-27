@@ -4,9 +4,9 @@ import { getStockState, getStockLabel } from "../utils/product";
 function ProductCard({
   product,
   isFavorite,
-  toggleFavorite,
-  isCompare,
-  toggleCompare,
+  onToggleFavorite,
+  isCompared,
+  onToggleCompare,
   canAddToCompare,
 }) {
   const {
@@ -22,7 +22,7 @@ function ProductCard({
   const stockState = getStockState(product);
   const stockLabel = getStockLabel(stockState);
   const hasDiscount = hasMeaningfulDiscount(product);
-  const compareDisabled = !isCompare && !canAddToCompare;
+  const compareDisabled = !isCompared && !canAddToCompare;
   return (
     <article className="product-card">
       <img
@@ -53,7 +53,7 @@ function ProductCard({
         <button
           type="button"
           className={`fav-btn ${isFavorite ? "fav-btn--active" : ""}`}
-          onClick={() => toggleFavorite(product.id)}
+          onClick={() => onToggleFavorite(product.id)}
           aria-pressed={isFavorite}
           aria-label={
             isFavorite
@@ -66,19 +66,19 @@ function ProductCard({
 
         <button
           type="button"
-          className={`compare-btm ${isCompare ? "compare-btn--active" : ""}`}
-          onClick={() => toggleCompare(product.id)}
-          aria-pressed={isCompare}
+          className={`compare-btn ${isCompared ? "compare-btn--active" : ""}`}
+          onClick={() => onToggleCompare(product.id)}
+          aria-pressed={isCompared}
           disabled={compareDisabled}
           aria-label={
-            isCompare
+            isCompared
               ? `Прибрати ${title} з порівняння`
               : compareDisabled
                 ? `Не можна додати ${title}: вже обрано 3 товари`
                 : `Додати ${title} до порівняння`
           }
         >
-          {isCompare ? "⇄ У порівнянні" : "⇄ Порівняти"}
+          {isCompared ? "⇄ У порівнянні" : "⇄ Порівняти"}
         </button>
       </div>
     </article>

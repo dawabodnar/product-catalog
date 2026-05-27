@@ -4,10 +4,10 @@ import "./FavoritesList.css";
 function FavoritesList({
   products,
   isFavorite,
-  toggleFavorite,
-  clearFavorites,
-  isCompare,
-  toggleCompare,
+  onToggleFavorite,
+  onClear,
+  isCompared,
+  onToggleCompare,
   canAddToCompare,
 }) {
   return (
@@ -20,7 +20,7 @@ function FavoritesList({
           <button
             className="fav_clear-btn"
             type="button"
-            onClick={clearFavorites}
+            onClick={onClear}
           >
             Очистити обране
           </button>
@@ -37,9 +37,9 @@ function FavoritesList({
               <ProductCard
                 product={product}
                 isFavorite={isFavorite(product.id)}
-                toggleFavorite={toggleFavorite}
-                isCompare={isCompare(product.id)}
-                toggleCompare={toggleCompare}
+                onToggleFavorite={onToggleFavorite}
+                isCompared={isCompared(product.id)}
+                onToggleCompare={onToggleCompare}
                 canAddToCompare={canAddToCompare}
               />
             </li>

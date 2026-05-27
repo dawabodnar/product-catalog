@@ -10,30 +10,30 @@ import {
 const STORAGE_KEY = 'product-catalog:favorites';
 
 export function useFavorites() {
-    const [favoriteId, setFavoriteId] = useState(() => readArray(STORAGE_KEY));
+    const [favoriteIds, setFavoriteIds] = useState(() => readArray(STORAGE_KEY));
 
     useEffect(() => {
-        writteArray(STORAGE_KEY, favoriteId);
-    }, [favoriteId]);
+        writteArray(STORAGE_KEY, favoriteIds);
+    }, [favoriteIds]);
 
     function isFavorite(id) {
-        return favoriteId.includes(id);
+        return favoriteIds.includes(id);
     }
 
     function toggleFavorite(id) {
-        if (favoriteId.includes(id)) {
-            setFavoriteId(favoriteId.filter((f) => f !== id));
+        if (favoriteIds.includes(id)) {
+            setFavoriteIds(favoriteIds.filter((f) => f !== id));
 
         } else {
-            setFavoriteId([...favoriteId, id]);
+            setFavoriteIds([...favoriteIds, id]);
         }
     }
 
     function clearFavorites() {
-        setFavoriteId([]);
+        setFavoriteIds([]);
     }
     return {
-        favoriteId,
+        favoriteIds,
         isFavorite,
         toggleFavorite,
         clearFavorites
