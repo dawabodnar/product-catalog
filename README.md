@@ -1,16 +1,162 @@
-# React + Vite
+# Каталог продукції
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Веб-додаток каталогу товарів на React + Vite. 
 
-Currently, two official plugins are available:
+Дані тягнуться з публічного API [dummyjson.com](https://dummyjson.com/products?limit=30).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Технології
 
-## React Compiler
+- **React 18** + **Vite**
+- **JavaScript** (без TypeScript)
+- **Plain CSS** (без UI-фреймворків)
+- Вбудовані інструменти стану React: `useState`, `useMemo`, `useEffect`, custom hooks. Без сторонніх state-менеджерів.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## 1. Як встановити та запустити проект
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Потрібен Node.js версії 18+.
+
+```bash
+# Клонувати репозиторій
+git clone https://github.com/ВАШ_НІК/product-catalog.git
+cd product-catalog
+
+# Встановити залежності
+npm install
+
+# Запустити dev-сервер
+npm run dev
+```
+
+Після `npm run dev` сторінка буде доступна за адресою `http://localhost:5173`.
+
+Для production-збірки:
+
+```bash
+npm run build
+npm run preview
+```
+
+---
+
+## 2. Що було впроваджено
+
+### Каталог товарів
+- Завантаження 30 товарів з API при першому рендері
+- Сітка карток (desktop) / одна колонка (mobile)
+- На картці: зображення, назва, бренд (умовно), категорія, ціна, знижка (умовно), рейтинг, статус наявності
+
+### Пошук, фільтри, сортування
+- Пошук за назвою, брендом, категорією (case-insensitive)
+- Фільтр за категорією (опції генеруються з даних)
+- Фільтр "тільки в наявності"
+- Фільтр "тільки зі знижкою"
+- Сортування: ціна ↑, ціна ↓, рейтинг ↓, назва А-Я
+- Кнопка "Скинути фільтри"
+- Лічильник результатів ("Знайдено X з 30 товарів")
+- Похідний масив `visibleProducts` обчислюється з оригінального `products` через `useMemo`. Оригінал ніколи не мутується.
+
+### Обране
+- Додавання/видалення товарів кнопкою на картці
+- Окремий розділ під каталогом
+- Зберігається в `localStorage` (ключ `product-catalog:favorites`)
+- Переживає перезавантаження сторінки
+- Логіка винесена в custom hook `useFavorites`
+- У localStorage зберігаються лише `id` товарів, не самі об'єкти
+
+### Порівняння
+- Максимум 3 товари
+- Окрема таблиця з полями: категорія, ціна, знижка, рейтинг, наявність
+- При досягненні ліміту кнопка "Порівняти" disabled на інших товарах (з `aria-label`, що пояснює чому)
+- Зберігається в `localStorage` (ключ `product-catalog:compare`)
+- Зберігається порядок додавання
+- Логіка винесена в custom hook `useCompare`
+
+### Стани
+- Loading (з CSS-спінером)
+- Error (з підказкою перезавантажити сторінку)
+- Порожній результат фільтрації
+- Порожнє обране (з декоративною іконкою ♡)
+- Порожнє порівняння (з декоративною іконкою ⇄)
+
+### Доступність (a11y)
+- Семантичний HTML (`<header>`, `<main>`, `<section>`, `<article>`, `<table>`)
+- Підписи на всіх контролах через `<label>`
+- `aria-pressed` на toggle-кнопках обраного і порівняння
+- `aria-label` на кнопках, що змінюють контекст
+- `role="alert"` на повідомленні про помилку
+- Видимий focus через `:focus-visible`
+- Стан наявності передається не тільки кольором (текст + крапка + іконки)
+- Клавіатурна навігація працює (Tab/Shift+Tab/Enter/Space)
+
+### Адаптивність
+- Desktop: сітка `auto-fill, minmax(240px, 1fr)`
+- Mobile (≤480px): одна колонка
+- Тулбар на вузьких екранах перебудовується вертикально
+- Таблиця порівняння має горизонтальний скрол на мобільному
+
+### Бонусні фічі
+- Кнопка скидання фільтрів
+- CSS-анімації: спінер завантаження, fade-in карток при появі, scale-press на кнопках, soft zoom фото при hover
+- localStorage для списку порівняння (не тільки для обраного)
+- Беджик знижки на зображенні товару
+- Sticky toolbar (залишається зверху при скролі)
+
+---
+
+## 3. Що було пропущено
+
+- **TypeScript** — обрала JavaScript для швидкості.(типізація API-відповідей врятувала б від кількох багів (наприклад, плутанини з `p.discount` vs `p.discountPercentage`)).
+- **Тести** — не написано.
+- **Retry-кнопка на error state** — реалізовувала, але потім спростила до простого повідомлення з пропозицією перезавантажити сторінку. Ця спрощення дозволило тримати fetch-логіку всередині `useEffect` без обхідних шляхів (`useCallback` + `eslint-disable`).
+- **Складні анімації** — є базові (fade-in, hover zoom, spinner). Без `framer-motion` чи animated list reordering.
+- **Pagination / infinite scroll** — для 30 товарів зайве. Для реального магазину — обов'язкове.
+
+---
+
+## 4. Відомі проблеми
+
+- **useFavorites і useCompare дуже схожі.** Обидва зберігають масив id у localStorage, дають функції додати/прибрати/перевірити. Логіку можна було б винести в один generic-хук типу `useLocalStorageList`. Не стала, бо хуки писались по черзі, і я хотіла спочатку щоб працювало, а вже потім рефакторити. Не встигла.
+- **CSS-неймінг непослідовний.** В одних місцях я писала `product-card__stock` (BEM), в інших `product-card-img` (kebab-case). Просто писала як швидше, а потім було страшно ламати все правками. У майбутньому привела б до одного стилю.
+- **Картки трохи "стрибають" при зміні фільтра** через fadeIn-анімацію. Виглядає прикольно при першому рендері, але при швидкій зміні фільтра трохи дратує.
+
+
+---
+
+## 5. Що б покращила з часом
+
+1. Об'єднала useFavorites і useCompare в один хук
+2. Перевести на TypeScript.** З типами API-відповідей.
+3. Додати тести. Unit-тести на утиліти (`hasMeaningfulDiscount`, `getStockState`).
+4. Loading skeleton замість спінера — щоб користувач бачив "форму" майбутнього контенту.
+5. Debounce пошуку — для 30 елементів не потрібно, але для великого датасету треба.
+6. Привести CSS до єдиного підходу** — BEM скрізь, або CSS Modules.
+7. Виділити константи в окремий файл** — STORAGE_KEYS, MAX_COMPARE, API_URL.
+
+
+
+---
+
+## Структура проєкту
+
+```
+src/
+├── App.jsx                      # головний компонент: стан і useMemo похідних
+├── main.jsx                     # точка входу
+├── components/
+│   ├── ProductCard.jsx          # картка одного товару
+│   ├── ProductList.jsx          # сітка карток
+│   ├── Toolbar.jsx              # пошук + фільтри + сортування + reset
+│   ├── FavoritesList.jsx        # розділ обраного
+│   └── CompareTable.jsx         # таблиця порівняння
+├── hooks/
+│   ├── useFavorites.js          # стан обраного + localStorage
+│   └── useCompare.js            # стан порівняння + localStorage + ліміт 3
+├── utils/
+│   ├── api.js                   # fetchProducts
+│   ├── product.js               # hasMeaningfulDiscount, getStockState, getStockLabel
+│   └── storage.js               # readArray, writeArray (безпечний localStorage)
+└── styles/
+    └── global.css               # базові стилі, reset, анімації
+```
