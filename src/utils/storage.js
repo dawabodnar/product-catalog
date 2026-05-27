@@ -1,18 +1,18 @@
-export function readArray(key){
-    try{
+export function readArray(key) {
+    try {
         const raw = localStorage.getItem(key);
-        if(!raw) return [];
+        if (!raw) return [];
         const parsed = JSON.parse(raw);
         return Array.isArray(parsed) ? parsed : [];
-    }catch {
+    } catch {
         return [];
     }
 }
 
-export function writteArray(key, value){
-    try{
+export function writteArray(key, value) {
+    try {
         localStorage.setItem(key, JSON.stringify(value));
-    }catch {
+    } catch {
         // ignore
     }
 }
