@@ -123,7 +123,12 @@ function App() {
         <h1>Каталог продукції</h1>
       </header>
       <main className="app_main">
-        {status === "loading" && <p>Завантаження…</p>}
+        {status === "loading" && (
+          <div className="app__loader">
+            <div className="app__spinner" aria-hidden="true"></div>
+            <p>Завантаження товарів…</p>
+          </div>
+        )}
         {status === "error" && (
           <div role="alert" className="app_error">
             <p>Помилка завантаження: {error}</p>

@@ -25,23 +25,25 @@ function ProductCard({
   const compareDisabled = !isCompared && !canAddToCompare;
   return (
     <article className="product-card">
-      <img
-        className="product-card-img"
-        src={thumbnail}
-        alt={title}
-        loading="lazy"
-      />
+      <div className="product-card-img-wrap">
+        <img
+          className="product-card-img"
+          src={thumbnail}
+          alt={title}
+          loading="lazy"
+        />
+        {hasDiscount && (
+          <span className="product-card-discount">
+            -{Math.round(discountPercentage)}%
+          </span>
+        )}
+      </div>
       <div className="product-card-body">
         <h3 className="product-card-title">{title}</h3>
         {brand && <p className="product-card-brand">{brand}</p>}
         <p className="product-card-category">{category}</p>
         <div className="wrapper-price">
-          <span>${price}</span>
-          {hasDiscount && (
-            <span className="product-card-discount">
-              -{Math.round(discountPercentage)}%
-            </span>
-          )}
+          <span className="product-card-price">${price}</span>
         </div>
         <p className="product-card-rating" aria-label={`Рейтинг ${rating}`}>
           ★{rating.toFixed(2)}
@@ -61,7 +63,7 @@ function ProductCard({
               : `Додати ${title} в обране`
           }
         >
-          {isFavorite ? "★ В обраному" : "☆ В обране"}
+          {isFavorite ? "♥ В обраному" : "♡ В обране"}
         </button>
 
         <button

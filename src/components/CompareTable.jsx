@@ -14,11 +14,7 @@ function CompareTable({ products, onClear, onRemove }) {
           Порівняння ({products.length})/{MAX_COMPARE}
         </h2>
         {products.length > 0 && (
-          <button
-            type="button"
-            className="compare_clear"
-            onClick={onClear}
-          >
+          <button type="button" className="compare_clear" onClick={onClear}>
             Очистити порівняння
           </button>
         )}

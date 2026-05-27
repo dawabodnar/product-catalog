@@ -16,6 +16,8 @@
 .favorites_title {
   margin: 0;
   font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
 .fav_clear-btn {
@@ -44,13 +46,28 @@
   display: flex;
 }
 
-.favorites_item > * {
+.favorites_item>* {
   width: 100%;
 }
 
 .fav_empty {
+  text-align: center;
+  padding: 48px 24px;
+  background: #fff;
+  border: 1px dashed #d1d5db;
+  border-radius: 12px;
   color: #6b7280;
-  font-size: 15px;
+  font-size: 14px;
+  margin: 0;
+}
+
+.fav_empty::before {
+  content: '♡';
+  display: block;
+  font-size: 48px;
+  color: #d1d5db;
+  margin-bottom: 12px;
+  line-height: 1;
 }
 
 @media (max-width: 480px) {

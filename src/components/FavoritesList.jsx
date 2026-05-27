@@ -17,11 +17,7 @@ function FavoritesList({
           Обране ({products.length})
         </h2>
         {products.length > 0 && (
-          <button
-            className="fav_clear-btn"
-            type="button"
-            onClick={onClear}
-          >
+          <button className="fav_clear-btn" type="button" onClick={onClear}>
             Очистити обране
           </button>
         )}

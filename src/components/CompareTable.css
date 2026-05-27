@@ -16,6 +16,8 @@
 .compare_title {
   margin: 0;
   font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
 .compare_clear {
@@ -32,8 +34,23 @@
 }
 
 .compare_empty {
+  text-align: center;
+  padding: 48px 24px;
+  background: #fff;
+  border: 1px dashed #d1d5db;
+  border-radius: 12px;
   color: #6b7280;
-  font-size: 15px;
+  font-size: 14px;
+  margin: 0;
+}
+
+.compare__empty::before {
+  content: '⇄';
+  display: block;
+  font-size: 48px;
+  color: #d1d5db;
+  margin-bottom: 12px;
+  line-height: 1;
 }
 
 .compare_table-wrap {
